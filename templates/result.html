@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prediction Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Prediction Result</h1>
+        
+        {% if error %}
+            <div class="error">
+                <p>Error: {{ error }}</p>
+            </div>
+        {% else %}
+            <div class="result">
+                <h2>
+                    {% if prediction %}
+                        The person is likely to have diabetes
+                    {% else %}
+                        The person is unlikely to have diabetes
+                    {% endif %}
+                </h2>
+                <p>Probability: {{ "%.2f"|format(probability) }}%</p>
+            </div>
+
+            <div class="input-summary">
+                <h3>Input Data Summary:</h3>
+                <p>Gender: {{ "Female" if input_data[0] == 1 else "Male" }}</p>
+                <p>Age: {{ input_data[1] }}</p>
+                <p>Hypertension: {{ "Yes" if input_data[2] == 1 else "No" }}</p>
+                <p>Heart Disease: {{ "Yes" if input_data[3] == 1 else "No" }}</p>
+                <p>BMI: {{ "%.2f"|format(input_data[5]) }}</p>
+                <p>HbA1c Level: {{ input_data[6] }}</p>
+                <p>Blood Glucose Level: {{ input_data[7] }}</p>
+            </div>
+        {% endif %}
+
+        <a href="{{ url_for('home') }}" class="button">Make Another Prediction</a>
+    </div>
+</body>
+</html> 
