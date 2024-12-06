@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html data-theme="light">
 <head>
     <title>Diabetes Prediction</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
@@ -23,6 +23,22 @@
 </head>
 <body>
     <div class="container">
+        <div class="theme-toggle">
+            <button class="theme-toggle-button" onclick="toggleTheme()" aria-label="Toggle theme">
+                <svg class="theme-toggle-icon" id="theme-toggle-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"/>
+                    <line x1="12" y1="1" x2="12" y2="3"/>
+                    <line x1="12" y1="21" x2="12" y2="23"/>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                    <line x1="1" y1="12" x2="3" y2="12"/>
+                    <line x1="21" y1="12" x2="23" y2="12"/>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                </svg>
+                <span id="theme-toggle-text">Light Mode</span>
+            </button>
+        </div>
         <h1>Diabetes Prediction System</h1>
         <form action="{{ url_for('predict') }}" method="post" onsubmit="showLoader()">
             <div class="form-group">
@@ -30,12 +46,20 @@
                 <select name="gender" required>
                     <option value="0">Male</option>
                     <option value="1">Female</option>
+                    <option value="2">Other</option>
                 </select>
             </div>
 
             <div class="form-group">
                 <label>Age:</label>
-                <input type="number" name="age" required min="0" max="120">
+                <div class="number-input-wrapper">
+                    <input type="number" class="number-input" name="age" required min="0" max="120" value="30">
+                    <div class="number-controls">
+                        <button type="button" class="number-control-btn decrease" onclick="decrementValue(this)">-</button>
+                        <button type="button" class="number-control-btn increase" onclick="incrementValue(this)">+</button>
+                    </div>
+                    <span class="tooltip">Age in years</span>
+                </div>
             </div>
 
             <div class="form-group">
@@ -68,7 +92,14 @@
 
             <div class="form-group">
                 <label>BMI:</label>
-                <input type="number" name="bmi" step="0.01" required>
+                <div class="number-input-wrapper">
+                    <input type="number" class="number-input" name="bmi" step="0.1" required min="10" max="50" value="22.5">
+                    <div class="number-controls">
+                        <button type="button" class="number-control-btn decrease" onclick="decrementValue(this)">-</button>
+                        <button type="button" class="number-control-btn increase" onclick="incrementValue(this)">+</button>
+                    </div>
+                    <span class="tooltip">Body Mass Index</span>
+                </div>
             </div>
 
             <div class="form-group">
@@ -91,6 +122,108 @@
         function showLoader() {
             document.getElementById('loader').style.display = 'block';
         }
+
+        function incrementValue(button) {
+            const input = button.closest('.number-input-wrapper').querySelector('input');
+            const step = parseFloat(input.step) || 1;
+            const max = parseFloat(input.max);
+            let value = parseFloat(input.value) || 0;
+            
+            if (value + step <= max) {
+                input.value = (value + step).toFixed(step < 1 ? 1 : 0);
+                input.dispatchEvent(new Event('change'));
+            }
+            updateButtonStates(input);
+        }
+
+        function decrementValue(button) {
+            const input = button.closest('.number-input-wrapper').querySelector('input');
+            const step = parseFloat(input.step) || 1;
+            const min = parseFloat(input.min);
+            let value = parseFloat(input.value) || 0;
+            
+            if (value - step >= min) {
+                input.value = (value - step).toFixed(step < 1 ? 1 : 0);
+                input.dispatchEvent(new Event('change'));
+            }
+            updateButtonStates(input);
+        }
+
+        function updateButtonStates(input) {
+            const wrapper = input.closest('.number-input-wrapper');
+            const decreaseBtn = wrapper.querySelector('.decrease');
+            const increaseBtn = wrapper.querySelector('.increase');
+            const value = parseFloat(input.value) || 0;
+            const min = parseFloat(input.min);
+            const max = parseFloat(input.max);
+            const step = parseFloat(input.step) || 1;
+            
+            decreaseBtn.disabled = value - step < min;
+            increaseBtn.disabled = value + step > max;
+        }
+
+        // Initialize all number inputs
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.number-input').forEach(input => {
+                updateButtonStates(input);
+                
+                input.addEventListener('change', () => updateButtonStates(input));
+                input.addEventListener('input', () => updateButtonStates(input));
+            });
+        });
+
+        // Theme toggle functionality
+        function setTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            
+            const icon = document.getElementById('theme-toggle-icon');
+            const text = document.getElementById('theme-toggle-text');
+            
+            // Update icon and text
+            if (theme === 'dark') {
+                icon.innerHTML = `
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="currentColor" stroke="none"/>
+                `;
+                text.textContent = 'Dark Mode';
+            } else {
+                icon.innerHTML = `
+                    <circle cx="12" cy="12" r="5"/>
+                    <line x1="12" y1="1" x2="12" y2="3"/>
+                    <line x1="12" y1="21" x2="12" y2="23"/>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                    <line x1="1" y1="12" x2="3" y2="12"/>
+                    <line x1="21" y1="12" x2="23" y2="12"/>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                `;
+                text.textContent = 'Light Mode';
+            }
+            
+            // Add rotation animation
+            icon.classList.add('rotating');
+            setTimeout(() => icon.classList.remove('rotating'), 500);
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            setTheme(newTheme);
+        }
+
+        // Set initial theme
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || 
+                              (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            setTheme(savedTheme);
+        });
+
+        // Listen for system theme changes
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+            const newTheme = e.matches ? 'dark' : 'light';
+            setTheme(newTheme);
+        });
     </script>
 </body>
 </html> 

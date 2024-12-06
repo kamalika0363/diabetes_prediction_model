@@ -1,91 +1,124 @@
 :root {
-    --primary-color: #4F46E5;
-    --primary-hover: #4338CA;
-    --text-primary: #1F2937;
-    --text-secondary: #6B7280;
-    --background: #F9FAFB;
+    --primary-color: #6366F1;
+    --primary-gradient: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
+    --primary-hover: #4F46E5;
+    --text-primary: #1E293B;
+    --text-secondary: #64748B;
+    --background: #F8FAFC;
     --card-bg: #FFFFFF;
-    --border-color: #E5E7EB;
-    --success-color: #059669;
-    --error-color: #DC2626;
+    --border-color: #E2E8F0;
+    --success-color: #10B981;
+    --error-color: #EF4444;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
 body {
-    background-color: var(--background);
+    background: var(--background);
     color: var(--text-primary);
     line-height: 1.6;
     min-height: 100vh;
     padding: 2rem 1rem;
+    background-image: 
+        radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.05) 0%, transparent 50%);
 }
 
 .container {
     max-width: 800px;
     margin: 0 auto;
-    padding: 2rem;
+    padding: 2.5rem;
     background: var(--card-bg);
-    border-radius: 16px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 
-                0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border-radius: 24px;
+    box-shadow: var(--shadow-lg);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 h1 {
     color: var(--text-primary);
-    font-size: 2rem;
-    font-weight: 700;
+    font-size: 2.25rem;
+    font-weight: 800;
     margin-bottom: 1.5rem;
     text-align: center;
     letter-spacing: -0.025em;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 h2 {
     color: var(--text-primary);
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin: 1.5rem 0 1rem;
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin: 1.75rem 0 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .info-text {
     color: var(--text-secondary);
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
     text-align: center;
-    font-size: 0.95rem;
+    font-size: 1rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .form-section {
-    margin-bottom: 2rem;
-    padding: 1.5rem;
+    margin-bottom: 2.5rem;
+    padding: 2rem;
     background: var(--background);
-    border-radius: 12px;
+    border-radius: 16px;
     border: 1px solid var(--border-color);
     transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.form-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--primary-gradient);
+    border-radius: 4px 0 0 4px;
 }
 
 .form-section:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
 }
 
 .section-info {
     color: var(--text-secondary);
-    margin-bottom: 1.5rem;
-    font-size: 0.9rem;
+    margin-bottom: 2rem;
+    font-size: 0.95rem;
+    line-height: 1.7;
 }
 
 .form-group {
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
+    position: relative;
 }
 
 label {
     display: block;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
     color: var(--text-primary);
-    font-weight: 500;
+    font-weight: 600;
     font-size: 0.95rem;
 }
 
@@ -93,12 +126,13 @@ input[type="text"],
 input[type="number"],
 select {
     width: 100%;
-    padding: 0.75rem 1rem;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
+    padding: 0.875rem 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
     font-size: 1rem;
     transition: all 0.2s ease;
     background-color: var(--card-bg);
+    color: var(--text-primary);
 }
 
 input[type="text"]:focus,
@@ -106,49 +140,63 @@ input[type="number"]:focus,
 select:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
 }
 
 .radio-group,
 .checkbox-group {
     display: flex;
-    gap: 1.5rem;
+    gap: 2rem;
     flex-wrap: wrap;
+    padding: 0.5rem 0;
 }
 
 .radio-group label,
 .checkbox-group label {
-    font-weight: normal;
+    font-weight: 500;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.75rem;
     cursor: pointer;
+    padding: 0.5rem 1rem;
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.radio-group label:hover,
+.checkbox-group label:hover {
+    border-color: var(--primary-color);
+    background: rgba(99, 102, 241, 0.05);
 }
 
 input[type="radio"],
 input[type="checkbox"] {
     accent-color: var(--primary-color);
-    width: 1.1rem;
-    height: 1.1rem;
+    width: 1.25rem;
+    height: 1.25rem;
+    cursor: pointer;
 }
 
 .submit-btn {
-    background-color: var(--primary-color);
+    background: var(--primary-gradient);
     color: white;
-    padding: 1rem 1.5rem;
+    padding: 1.25rem 2rem;
     border: none;
-    border-radius: 8px;
+    border-radius: 12px;
     cursor: pointer;
-    font-size: 1rem;
-    font-weight: 500;
+    font-size: 1.1rem;
+    font-weight: 600;
     width: 100%;
-    margin-top: 1.5rem;
-    transition: all 0.2s ease;
+    margin-top: 2rem;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-md);
 }
 
 .submit-btn:hover {
-    background-color: var(--primary-hover);
-    transform: translateY(-1px);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
 }
 
 .submit-btn:active {
@@ -156,102 +204,125 @@ input[type="checkbox"] {
 }
 
 .loader {
-    border: 3px solid rgba(79, 70, 229, 0.1);
+    border: 4px solid rgba(99, 102, 241, 0.1);
     border-radius: 50%;
-    border-top: 3px solid var(--primary-color);
-    width: 36px;
-    height: 36px;
-    animation: spin 0.8s linear infinite;
-    margin: 1.5rem auto;
+    border-top: 4px solid var(--primary-color);
+    width: 40px;
+    height: 40px;
+    animation: spin 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    margin: 2rem auto;
     display: none;
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    to { transform: rotate(360deg); }
 }
 
 /* Result page styles */
 .result {
     text-align: center;
-    padding: 2rem;
-    margin: 1.5rem 0;
+    padding: 2.5rem;
+    margin: 2rem 0;
     background: var(--background);
-    border-radius: 12px;
+    border-radius: 16px;
     border: 1px solid var(--border-color);
+    position: relative;
+    overflow: hidden;
+}
+
+.result::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--primary-gradient);
 }
 
 .result h2 {
     color: var(--text-primary);
-    margin-bottom: 1rem;
-    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.75rem;
 }
 
 .result p {
     color: var(--text-secondary);
-    font-size: 1.1rem;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
 }
 
 .input-summary {
-    margin-top: 2rem;
-    padding: 1.5rem;
+    margin-top: 2.5rem;
+    padding: 2rem;
     background: var(--background);
-    border-radius: 12px;
+    border-radius: 16px;
     border: 1px solid var(--border-color);
 }
 
 .input-summary h3 {
     color: var(--text-primary);
-    margin-bottom: 1rem;
-    font-size: 1.1rem;
-    font-weight: 600;
+    margin-bottom: 1.5rem;
+    font-size: 1.25rem;
+    font-weight: 700;
 }
 
 .input-summary p {
-    margin-bottom: 0.75rem;
+    margin-bottom: 1rem;
     display: flex;
     justify-content: space-between;
-    padding: 0.5rem 0;
-    border-bottom: 1px solid var(--border-color);
+    padding: 1rem;
+    background: var(--card-bg);
+    border-radius: 8px;
+    font-size: 1rem;
 }
 
 .error {
     color: var(--error-color);
-    padding: 1rem;
-    background: #FEE2E2;
-    border-radius: 8px;
+    padding: 1.25rem;
+    background: #FEF2F2;
+    border-radius: 12px;
     margin: 1.5rem 0;
-    font-size: 0.95rem;
+    font-size: 1rem;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.75rem;
+    border-left: 4px solid var(--error-color);
 }
 
 .button {
     display: inline-block;
-    background-color: var(--primary-color);
+    background: var(--primary-gradient);
     color: white;
-    padding: 0.75rem 1.5rem;
+    padding: 1rem 2rem;
     text-decoration: none;
-    border-radius: 8px;
-    margin-top: 1.5rem;
-    font-weight: 500;
-    transition: all 0.2s ease;
+    border-radius: 12px;
+    margin-top: 2rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-md);
 }
 
 .button:hover {
-    background-color: var(--primary-hover);
-    transform: translateY(-1px);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Glassmorphism effects */
+.glass-effect {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Responsive Design */
-@media (max-width: 640px) {
+@media (max-width: 768px) {
     .container {
         padding: 1.5rem;
     }
 
     .form-section {
-        padding: 1rem;
+        padding: 1.5rem;
     }
 
     h1 {
@@ -261,6 +332,180 @@ input[type="checkbox"] {
     .radio-group,
     .checkbox-group {
         flex-direction: column;
-        gap: 0.75rem;
+        gap: 1rem;
     }
-} 
+
+    .radio-group label,
+    .checkbox-group label {
+        width: 100%;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background: #0F172A;
+        --card-bg: #1E293B;
+        --text-primary: #F1F5F9;
+        --text-secondary: #94A3B8;
+        --border-color: #334155;
+    }
+}
+
+/* Add these new styles for counters */
+.number-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.number-input {
+    padding-right: 80px !important; /* Space for controls */
+}
+
+.number-controls {
+    position: absolute;
+    right: 8px;
+    display: flex;
+    gap: 4px;
+}
+
+.number-control-btn {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: var(--primary-gradient);
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: all 0.2s ease;
+    opacity: 0.9;
+}
+
+.number-control-btn:hover {
+    opacity: 1;
+    transform: translateY(-1px);
+}
+
+.number-control-btn:active {
+    transform: translateY(0);
+}
+
+/* Style for disabled state */
+.number-control-btn:disabled {
+    background: var(--border-color);
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+/* Value display */
+.value-display {
+    position: absolute;
+    right: 90px;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    pointer-events: none;
+}
+
+/* Custom input spinners */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+/* Tooltip styles */
+.tooltip {
+    position: absolute;
+    background: var(--card-bg);
+    color: var(--text-primary);
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border-color);
+    pointer-events: none;
+    opacity: 0;
+    transition: all 0.2s ease;
+    z-index: 10;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.number-input-wrapper:hover .tooltip {
+    opacity: 1;
+    top: -40px;
+}
+
+/* Add these new styles for the theme toggle */
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.theme-toggle-button {
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 50px;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    color: var(--text-primary);
+    box-shadow: var(--shadow-md);
+}
+
+.theme-toggle-button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.theme-toggle-icon {
+    width: 20px;
+    height: 20px;
+    transition: all 0.3s ease;
+}
+
+/* Dark mode styles */
+[data-theme="dark"] {
+    --background: #0F172A;
+    --card-bg: #1E293B;
+    --text-primary: #F1F5F9;
+    --text-secondary: #94A3B8;
+    --border-color: #334155;
+}
+
+/* Light mode styles */
+[data-theme="light"] {
+    --background: #F8FAFC;
+    --card-bg: #FFFFFF;
+    --text-primary: #1E293B;
+    --text-secondary: #64748B;
+    --border-color: #E2E8F0;
+}
+
+/* Animation for icon rotation */
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.theme-toggle-icon.rotating {
+    animation: rotate 0.5s ease;
+}
+  
